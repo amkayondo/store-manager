@@ -16,15 +16,25 @@ class Products(Resource):
             return jsonify({
              "message": products
             })
- 
+
+    def post(self):
+        data = request.get_json()
+        p_name = data.get('p_name')
+        new = {
+            "p_id": len(products)+1,
+            "p_name": p_name
+        }
+
+        products.append(new)
+        return products    
 
 
 # Get Product by ID
 class GetProduct(Resource):
     def get(self, p_id):
-       x = CheckId(p_id, products, 'p_id')
+       x = CheckId(p_id, products, 'p_id', 'p_name')
        response = x.check_id()
-       
+
        if response:
            return response
 
